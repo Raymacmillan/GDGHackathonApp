@@ -1,27 +1,128 @@
-# Calub
+# Academic Manager (Timely) App
+<br>
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.8.
+## Table of contents
+1. [Project Overview](#project-overview)
+2. [App Features and Functionalities](#features)
+3. [Technology Stack](#technology-stack)
+4. [Developement Workflow](development-workflow)
+5. [API Usage and Intergration](#development-workflow)
+6. [Challenges and Solutions](#challenges-faced)
+7. [Future Improvements](#future-improvements)
+8. [Testing and Deployment](#testing-and-deployment)
+9. [Acknowledgements](#acknowledgment)
 
-## Development server
+<br>
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+# Project Overview
+<br>
+Timley is a time-management and self-motivation tool designed for students and lecturers. It addresses the common challenges of disorganized schedules and missed events. The app acts as a digital assistant, offereing reminders for academic tasks and motivational support.
 
-## Code scaffolding
+<br>
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+![Small Screen View](./public/phone.png)
 
-## Build
+![Medium Screen View](./public/ipadAir.png)
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+![Large Screen View](./public/desktop.png)
 
-## Running unit tests
+# Features
+<br>
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Task Manger: ##
+Create, edit and delete to-do lists. Mark tasks as completed for better tracking.
 
-## Running end-to-end tests
+## Motivational Quotes: ##
+Browse through uplifting quotes for inspiration.
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+## Event Planner: ##
+Schedule events with customizable reminders.  
+Push notifications ensure you never miss an event, whether online or offline.
 
-## Further help
+<br>
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+# Technology Stack
+  
+### Frontend Framework: Angular 
+### Styling: 
+Tailwind CSS
+### Storage: 
+Local Storage with Bitoa encryption for data security.
+### Navigation: 
+User-friendly interface with three distinct pages.
+### API's: ###
+1. OneSignal for notifications.
+2. Progressive Web App (PWA) capabilities for offline use.
+
+### Deployment: Vercel for quick and seamless hosting ##
+
+<br>
+
+# Development Workflow
+### Version Control: 
+Github served as the backbone of the development process, ensuring seamless collaboration and version tracking.
+
+### Local Resources:
+Some assets were stored locally to optimize workflow
+
+## Challenges Faced
+<br>
+
+### PWA Limitations
+Limited offline notifications led to intergrating OneSignal
+
+### Local Storage Contraints
+Data is device-specific, lacking cross-device synchronization
+
+### Date Formatting Issues
+Managing various data formats caused initial errors but was resolved with robust parsing techniques.
+
+### Clustered Events and less Restricted Working Space
+Resolved this by introducing button to toggle when to show the upcoming events due to limited space on screen and introduding two way view of events(left and right)
+
+<br>
+
+# Future Improvements
+### Filtering by Date
+Streamline task and event by implementing date-based filters
+
+### Backend Intergration
+Enable cross-device data synchronization for a more seamless user experience.
+
+### Theme Toggling
+Introduce dark and light mode to suit different user preferences
+
+### Parsing of PDF files
+Facilitate eassness of event scheduling by permiting uploading of pdf files, extracting relavant data thereby reducing effort in typing
+
+<br>
+
+# Testing and Deployment
+## Testing 
+The app was rigorously tested across small, medium and large screen devices to ensure responsiveness
+## Deployment
+Hosted on Vercel for it's ease of use and scalability
+
+<br>
+
+# Acknowledgment
+## We express gratitude to the following resources and communities:
+
+### NetNinja
+Tailwindcss and other learning resources.
+### Pexels & Flaticon
+For images and favicons
+### Heroicons
+Icons that enhanced UI.
+### Github Contributors(Michele Riva && Matt Lewis)
+JSON quotes and calender component
+### OneSignal, Tailwind CSS and Angular Documentation
+API integration and styling.
+### StackOverflow and General Web Resources
+For Debugging and insights.
+
+<br>
+
+# Final Thoughts
+
+  **Timely** provides a holistic approach to academic management by combining productivity tools with motivational support. It's a robust solution for students and educators to efficiently manage their time and stay motivated.
