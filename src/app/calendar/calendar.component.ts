@@ -162,10 +162,16 @@ export class CalendarComponent implements OnInit {
   toggleReminder() {
     this.isReminderSet = !this.isReminderSet;  // Toggle the reminder state
     if (this.isReminderSet) {
-      // Reschedule reminders for each event when the reminder is toggled on
-      this.events.forEach(event => this.scheduleReminder(event));
+      // Schedule reminders only if the reminder time is valid
+      this.events.forEach(event => {
+        if (this.isValidReminder(event)) {
+          this.scheduleReminder(event);
+        } else {
+          console.warn(`Reminder time for ${event.title} is after the event's start time.`);
+        }
+      });
     }
-    this.setReminder();  // Optional: can log or perform any additional actions when toggling reminder
+    this.setReminder();  // Optional: perform any additional actions
   }
 
   @HostListener('window:resize', ['$event'])
@@ -177,6 +183,12 @@ export class CalendarComponent implements OnInit {
     const width = window.innerWidth;
     this.isLargeScreen = width >= 1024;
     this.isMediumScreen = width >= 768 && width < 1200;
+  }
+
+  isValidReminder(event: any): boolean {
+    const eventStartTime = new Date(`${event.date}T${event.startTime}`).getTime();
+    const reminderTime = eventStartTime - this.reminderMinutes * 60000;
+    return reminderTime > Date.now(); // Ensure reminder is set for a future time before the event starts
   }
 
   get evenEvents() {
@@ -342,17 +354,21 @@ export class CalendarComponent implements OnInit {
   }
 
   scheduleReminder(event: any) {
-    const reminderTime = new Date(event.date as Date);
-    const [hours, minutes] = event.startTime.split(':').map(Number);
-    reminderTime.setHours(hours, minutes);
-    reminderTime.setMinutes(reminderTime.getMinutes() - event.reminderMinutes);
-
-    const timeoutDuration = reminderTime.getTime() - new Date().getTime();
-
-    if (timeoutDuration > 0) {
-      setTimeout(() => {
-        alert(`Reminder: ${event.title} starting at: ${event.startTime}!`);
-      }, timeoutDuration);
+    const eventTime = new Date(event.startTime).getTime();
+    const reminderTime = this.reminderMinutes * 60 * 1000; // Convert reminder minutes to milliseconds
+    const now = Date.now();
+  
+    // Only schedule if reminder time is less than the event start time
+    if (eventTime - now > reminderTime) {
+      const reminderTimestamp = eventTime - reminderTime;
+      if (reminderTimestamp > now) {
+        // Schedule the reminder
+        setTimeout(() => {
+          alert(`Reminder: Event "${event.title}" is starting soon!`);
+        }, reminderTimestamp - now);
+      }
+    } else {
+      alert("Reminder time must be set to a period earlier than the event start time.");
     }
   }
 
