@@ -16,7 +16,7 @@ declare var OneSignal: any;
 })
 
 export class AppComponent implements OnInit {
-  title =  'Calub';
+  title =  'Timely';
   eventTitle: string = '';
   eventDate: Date | null = null;
   startTime: string = '';
