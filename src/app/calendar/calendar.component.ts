@@ -4,6 +4,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef } from '@angular/core';
 
+
 @Component({
   selector: 'app-calendar',
   standalone: true,
@@ -93,6 +94,7 @@ import { ChangeDetectorRef } from '@angular/core';
           type="number" 
           id="reminderMinutes" 
           [(ngModel)]="reminderMinutes" 
+          (keyup)="onReminderMinutesChange($event)"
           class="outline-none bg-gray-200 rounded-sm p-2 w-full" 
           placeholder="Enter minutes before event" 
         />
@@ -153,7 +155,13 @@ export class CalendarComponent implements OnInit {
   isEventsVisible: boolean = false;
   private intervalId: any;
 
-  reminderMinutes: number = 10; // Default reminder 10 minutes before event
+  reminderMinutes: number = 0; // Initialized as null, so it’s not set to 0 by default
+
+onReminderMinutesChange(event: Event) {
+  const input = event.target as HTMLInputElement;
+  this.reminderMinutes = parseInt(input.value);
+  console.log('Updated reminderMinutes:', this.reminderMinutes); // Check the updated value
+}
 
   constructor(private cdr: ChangeDetectorRef) {
     this.loadEventsFromStorage();
@@ -186,10 +194,24 @@ export class CalendarComponent implements OnInit {
   }
 
   isValidReminder(event: any): boolean {
-    const eventStartTime = new Date(`${event.date}T${event.startTime}`).getTime();
-    const reminderTime = eventStartTime - this.reminderMinutes * 60000;
-    return reminderTime > Date.now(); // Ensure reminder is set for a future time before the event starts
+    if (this.reminderMinutes === null || this.reminderMinutes <= 0) {
+      console.log("Please enter a valid reminder time.");
+      return false;
+    }
+  
+    const [hours, minutes] = event.startTime.split(":").map(Number);
+    const eventDate = new Date(event.date);
+    eventDate.setHours(hours, minutes, 0, 0);
+    const eventTime = eventDate.getTime();
+  
+    const reminderOffset = this.reminderMinutes * 60 * 1000;
+    const reminderTimestamp = eventTime - reminderOffset;
+  
+    // Ensure the reminder is set for a future time and before the event starts
+    return reminderTimestamp > Date.now();
   }
+  
+  
 
   get evenEvents() {
     return this.events.filter((_, i) => i % 2 === 0);
@@ -296,7 +318,7 @@ export class CalendarComponent implements OnInit {
       date: this.eventDate,
       startTime: this.startTime,
       endTime: this.endTime,
-      reminderMinutes: this.reminderMinutes,
+      reminderMinutes: this.reminderMinutes !== null ? this.reminderMinutes : 0,
     };
     this.events.push(newEvent);
 
@@ -354,23 +376,36 @@ export class CalendarComponent implements OnInit {
   }
 
   scheduleReminder(event: any) {
-    const eventTime = new Date(event.startTime).getTime();
-    const reminderTime = this.reminderMinutes * 60 * 1000; // Convert reminder minutes to milliseconds
-    const now = Date.now();
+    if (this.reminderMinutes === null || this.reminderMinutes <= 0) {
+      alert("Please enter a valid reminder time before scheduling.");
+      return;
+    }
   
-    // Only schedule if reminder time is less than the event start time
-    if (eventTime - now > reminderTime) {
-      const reminderTimestamp = eventTime - reminderTime;
-      if (reminderTimestamp > now) {
-        // Schedule the reminder
-        setTimeout(() => {
-          alert(`Reminder: Event "${event.title}" is starting soon!`);
-        }, reminderTimestamp - now);
-      }
+    const [hours, minutes] = event.startTime.split(":").map(Number);
+    const eventDate = new Date(event.date);
+    eventDate.setHours(hours, minutes, 0, 0);
+    const eventTime = eventDate.getTime();
+  
+    const reminderOffset = this.reminderMinutes * 60 * 1000;
+    const reminderTimestamp = eventTime - reminderOffset;
+  
+    // Debugging logs to check time calculations
+    console.log('Event Time:', new Date(eventTime).toLocaleString());
+    console.log(eventDate);
+    console.log('Reminder Timestamp:', new Date(reminderTimestamp).toLocaleString());
+    console.log('Current Time:', new Date().toLocaleString());
+  
+    if (reminderTimestamp < eventTime) {
+      setTimeout(() => {
+        alert(`Reminder: Event "${event.title}" is starting soon!`);
+      }, reminderTimestamp - Date.now());
     } else {
       alert("Reminder time must be set to a period earlier than the event start time.");
     }
   }
+  
+  
+  
 
 
   showReminderNotification(event: any) {
@@ -385,5 +420,10 @@ export class CalendarComponent implements OnInit {
   setReminder() {
     console.log(`Reminder set for ${this.reminderMinutes} minutes before the event.`);
   }
+
+  logReminderMinutes() {
+    console.log('Current reminderMinutes:', this.reminderMinutes);
+  }
+  
 }
 

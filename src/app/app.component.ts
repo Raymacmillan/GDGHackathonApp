@@ -5,6 +5,8 @@ import { NavbarComponent } from "./navbar/navbar.component";
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
+declare var OneSignal: any;
+
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -29,7 +31,22 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.requestNotificationPermission();
     this.scheduleReminders();
+
+    this.initializeOneSignal();
   }
+
+  initializeOneSignal() {
+    OneSignal.init({
+      appId: '40400bae-ca11-474d-8ccd-a4ed44966b33',
+      notifyButton: {
+        enable: true,
+      },
+    });
+
+    OneSignal.showSlidedownPrompt();
+  }
+
+
 
   // Request Notification Permission
   async requestNotificationPermission() {
