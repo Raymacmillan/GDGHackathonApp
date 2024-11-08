@@ -1,0 +1,20 @@
+<div class="event-card flex p-4 items-center justify-center gap-4">
+    <div>
+      <div class="flex items-center justify-between p-4 w-full">
+        <p class="p-4 font-bold text-black text-center bg-gradient-to-tr from-red-200 to-cyan-300 via-cyan-400 w-40 h-28 rounded-md">
+          <span (click)="onDeleteClick()" class="block text-red-900 cursor-pointer">Delete</span>
+          {{ event?.date | date: 'fullDate' }}
+        </p>
+        <div class="ml-4 flex-col items-center justify-between gap-3">
+          <div class="flex items-center justify-start gap-2">
+            <div class="h-5 bg-white w-1 rounded-sm"></div>
+            <h3>{{ event?.title || 'No Title Provided' }}</h3>
+          </div>
+          <div class="inline-block">
+            <p>{{ event?.startTime || 'N/A' }} - {{ event?.endTime || 'N/A' }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

@@ -1,0 +1,38 @@
+<nav class="z-10 flex md:items-center md:justify-center lg:items-center lg:justify-center justify-between bg-gray-800 text-white p-4 z-20">
+    <span class="mr-8 text-xl">AcMan</span>
+    
+    <!-- Hamburger Menu Button (visible on small screens) -->
+    <button class="md:hidden focus:outline-none" (click)="toggleMenu()" aria-label="Toggle menu">
+      <svg *ngIf="!isMenuOpen" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-6 w-6">
+        <path fill-rule="evenodd" d="M2 3.75A.75.75 0 0 1 2.75 3h14.5a.75.75 0 0 1 0 1.5H2.75A.75.75 0 0 1 2 3.75Zm0 4.167a.75.75 0 0 1 .75-.75h14.5a.75.75 0 0 1 0 1.5H2.75a.75.75 0 0 1-.75-.75Zm0 4.166a.75.75 0 0 1 .75-.75h14.5a.75.75 0 0 1 0 1.5H2.75a.75.75 0 0 1-.75-.75Zm0 4.167a.75.75 0 0 1 .75-.75h14.5a.75.75 0 0 1 0 1.5H2.75a.75.75 0 0 1-.75-.75Z" clip-rule="evenodd" />
+      </svg>
+      <svg *ngIf="isMenuOpen" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-6 w-6">
+        <path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
+      </svg>
+    </button>
+    
+    <!-- Desktop Menu (visible on larger screens) -->
+    <ul class="hidden md:flex space-x-4">
+      <li><a class="hover:text-gray-400" routerLink="/calendar" routerLinkActive="font-bold">Home</a></li>
+      <li><a class="hover:text-gray-400" routerLink="/quotes" routerLinkActive="font-bold">Motivation</a></li>
+      <li><a class="hover:text-gray-400" routerLink="/todo" routerLinkActive="font-bold">To-Do</a></li>
+    </ul>
+  </nav>
+  
+  <!-- Mobile Menu (hidden on larger screens) -->
+  <div class="md:hidden z-20 fixed top-0 right-0 w-64 h-screen bg-gray-900 text-white transform transition-transform duration-300 ease-in-out"
+       [ngClass]="{'translate-x-0': isMenuOpen, 'translate-x-full': !isMenuOpen}">
+    <div class="p-4">
+      <button (click)="toggleMenu()" class="text-right focus:outline-none">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-6 w-6">
+          <path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
+        </svg>
+      </button>
+    </div>
+    <ul class="space-y-4 p-4">
+      <li><a class="hover:text-gray-400" routerLink="/calendar" routerLinkActive="font-bold" (click)="closeMenu()">Home</a></li>
+      <li><a class="hover:text-gray-400" routerLink="/quotes" routerLinkActive="font-bold" (click)="closeMenu()">Motivation</a></li>
+      <li><a class="hover:text-gray-400" routerLink="/todo" routerLinkActive="font-bold" (click)="closeMenu()">To-Do</a></li>
+    </ul>
+  </div>
+  
