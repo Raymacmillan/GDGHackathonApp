@@ -11,12 +11,23 @@
 7. [Future Improvements](#future-improvements)
 8. [Testing and Deployment](#testing-and-deployment)
 9. [Acknowledgements](#acknowledgment)
+10. [Additional Information](#additional-information)
 
 <br>
 
 # Project Overview
 <br>
 Timley is a time-management and self-motivation tool designed for students and lecturers. It addresses the common challenges of disorganized schedules and missed events. The app acts as a digital assistant, offereing reminders for academic tasks and motivational support.
+
+Reduce missed exams and lectures by providing timely reminders.
+Serve as a motivational tool to encourage reluctant or overwhelmed students
+Provides a simple, user friendly interface for managing academic life
+
+# Primary Users
+University students and lecturers
+
+# Secondary Users
+Anyone who needs help organizing tasks and events
 
 <br>
 
@@ -38,6 +49,9 @@ Browse through uplifting quotes for inspiration.
 ## Event Planner: ##
 Schedule events with customizable reminders.  
 Push notifications ensure you never miss an event, whether online or offline.
+
+# User Authentication
+Simple local authentication for quick access
 
 <br>
 
@@ -72,10 +86,10 @@ Some assets were stored locally to optimize workflow
 Limited offline notifications led to intergrating OneSignal
 
 ### Local Storage Contraints
-Data is device-specific, lacking cross-device synchronization
+Data is device-specific, lacking cross-device synchronization. Proposed backend intgration as a future improvement
 
 ### Date Formatting Issues
-Managing various data formats caused initial errors but was resolved with robust parsing techniques.
+Managing various data formats caused initial errors but was resolved with robust parsing techniques using Javascript utilities.
 
 ### Clustered Events and less Restricted Working Space
 Resolved this by introducing button to toggle when to show the upcoming events due to limited space on screen and introduding two way view of events(left and right)
@@ -99,7 +113,8 @@ Facilitate eassness of event scheduling by permiting uploading of pdf files, ext
 
 # Testing and Deployment
 ## Testing 
-The app was rigorously tested across small, medium and large screen devices to ensure responsiveness
+The app was rigorously tested across small, medium and large screen devices to ensure responsiveness.
+Tested PWA functionality for offline use.
 ## Deployment
 Hosted on Vercel for it's ease of use and scalability
 
@@ -122,6 +137,28 @@ API integration and styling.
 For Debugging and insights.
 
 <br>
+
+# Addtional Information
+
+# Detailed User Guide
+1. Login: Enter your credentials or create account
+2. Dashboard: View upcoming events. Access your to-do-list and motivational quotes.
+3. Scheduling an Event: Navigate to the Event Planner. Set the event name, date, and time. Configure reminders and save
+
+# Security 
+Local Storage encrypted with bitoa algorithm and from validation to prevent invalid inputs
+
+# Performance
+Lazy loading for faster page loads
+Service workers for caching and offline functionality
+
+
+# ChangeLog
+
+## Version History
+v1.0.0: Initial release
+v1.1.0: Added push notifications
+v1.2.0: Improved reminder validation logic and form validations
 
 # Final Thoughts
 
