@@ -17,15 +17,15 @@
     </button>
   </div>
 
-  <div class="w-full max-w-sm">
-    <div *ngFor="let task of tasks" class="flex items-center justify-between bg-gray-300 p-3 sm:p-4 mb-2 rounded-lg sm:rounded-full">
+  <div class="flex-col items-center justify-center md:w-80 lg:w-80 p-2" style="width: 50%;">
+    <div *ngFor="let task of tasks" class="flex items-center justify-between bg-gray-300 p-2 mb-2 rounded-full sm:rounded-full">
       <!-- Task completion toggle -->
       <div 
-        class="flex items-center justify-center p-2 sm:p-4 h-8 sm:h-10 w-8 sm:w-10 rounded-full bg-gray-100 cursor-pointer" 
+        class="flex items-center justify-center p-4 h-10 w-10 rounded-full bg-gray-100 cursor-pointer" 
         (click)="onToggleTaskCompletion(task.id)"
       >
         <div 
-          class="h-4 w-4 sm:h-5 sm:w-5 rounded-full border-2" 
+          class="h-4 w-4 sm:h-5 sm:w-5 rounded-full border-2 p-2" 
           [ngClass]="{'border-blue-400': !task.completed, 'border-green-500 bg-green-500': task.completed}"
         ></div>
       </div>
