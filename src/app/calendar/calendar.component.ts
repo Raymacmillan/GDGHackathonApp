@@ -173,7 +173,7 @@ onReminderMinutesChange(event: Event) {
       // Schedule reminders only if the reminder time is valid
       this.events.forEach(event => {
         if (this.isValidReminder(event)) {
-          this.scheduleReminder(event);
+          this.scheduleReminder(event, this.reminderMinutes);
         } else {
           console.warn(`Reminder time for ${event.title} is after the event's start time.`);
         }
@@ -318,13 +318,13 @@ onReminderMinutesChange(event: Event) {
       date: this.eventDate,
       startTime: this.startTime,
       endTime: this.endTime,
-      reminderMinutes: this.reminderMinutes !== null ? this.reminderMinutes : 0,
+      reminderMinutes: this.reminderMinutes,
     };
     this.events.push(newEvent);
 
     this.saveToLocalStorage();
     this.clearForm();
-    this.scheduleReminder(newEvent); // Schedule reminder for this event
+    this.scheduleReminder(newEvent, this.reminderMinutes); // Schedule reminder for this event
   }
 
   getDateTime(date: Date | null, time: string): Date {
@@ -349,7 +349,7 @@ onReminderMinutesChange(event: Event) {
     this.eventDate = null;
     this.startTime = '';
     this.endTime = '';
-    this.reminderMinutes = 10; // Reset reminder
+    this.reminderMinutes = this.reminderMinutes; // Reset reminder
   }
 
   saveToLocalStorage() {
@@ -375,8 +375,10 @@ onReminderMinutesChange(event: Event) {
     }
   }
 
-  scheduleReminder(event: any) {
-    if (this.reminderMinutes === null || this.reminderMinutes <= 0) {
+  scheduleReminder(event: any, reminderMinutes: number) {
+    console.log("Received reminderMinutes:", reminderMinutes);
+  
+    if (reminderMinutes === null || reminderMinutes <= 0) {
       alert("Please enter a valid reminder time before scheduling.");
       return;
     }
@@ -386,23 +388,33 @@ onReminderMinutesChange(event: Event) {
     eventDate.setHours(hours, minutes, 0, 0);
     const eventTime = eventDate.getTime();
   
-    const reminderOffset = this.reminderMinutes * 60 * 1000;
+    const reminderOffset = reminderMinutes * 60 * 1000;
     const reminderTimestamp = eventTime - reminderOffset;
+    const currentTime = Date.now();
+    const delay = reminderTimestamp - currentTime;
   
-    // Debugging logs to check time calculations
     console.log('Event Time:', new Date(eventTime).toLocaleString());
-    console.log(eventDate);
     console.log('Reminder Timestamp:', new Date(reminderTimestamp).toLocaleString());
-    console.log('Current Time:', new Date().toLocaleString());
+    console.log('Current Time:', new Date(currentTime).toLocaleString());
+    console.log('Delay (ms):', delay);
   
-    if (reminderTimestamp < eventTime) {
+    if (delay > 0) {
       setTimeout(() => {
-        alert(`Reminder: Event "${event.title}" is starting soon!`);
-      }, reminderTimestamp - Date.now());
+        if (Notification.permission === 'granted') {
+          new Notification(`Reminder: ${event.title}`, {
+            body: `Event starts at ${event.startTime}`,
+            requireInteraction: true,
+          });
+        } else {
+          alert(`Reminder: Event "${event.title}" is starting soon!`);
+        }
+      }, delay);
     } else {
       alert("Reminder time must be set to a period earlier than the event start time.");
     }
   }
+  
+  
   
   
   
